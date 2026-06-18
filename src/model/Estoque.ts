@@ -11,7 +11,7 @@ export class Estoque {
       tipo: string,
       preco: number,
       quantidade: number,
-      validade: string
+      validade: string,
     ) {
       this.nome = nome;
       this.tipo = tipo;
@@ -21,7 +21,7 @@ export class Estoque {
     }
   };
 
-  itens: InstanceType<typeof Estoque.Medicamento>[] = [];
+  private itens: InstanceType<typeof Estoque.Medicamento>[] = [];
 
   adicionar(m: InstanceType<typeof Estoque.Medicamento>): void {
     this.itens.push(m);
@@ -45,8 +45,8 @@ export class Estoque {
     return false;
   }
 
-  getItens(): InstanceType<typeof Estoque.Medicamento>[] {
-    return this.itens;
+  getItens(): ReadonlyArray<InstanceType<typeof Estoque.Medicamento>> {
+    return this.itens.slice();
   }
 
   imprimirEstoque(): void {
@@ -61,7 +61,7 @@ export class Estoque {
           " | Validade: " +
           m.validade +
           " | R$" +
-          m.preco
+          m.preco,
       );
     }
   }
