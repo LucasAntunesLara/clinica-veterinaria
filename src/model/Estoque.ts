@@ -1,29 +1,9 @@
+import { Medicamento } from "./Medicamento";
+
 export class Estoque {
-  static Medicamento = class {
-    nome: string;
-    tipo: string;
-    preco: number;
-    quantidade: number;
-    validade: string;
+  itens: InstanceType<typeof Medicamento>[] = [];
 
-    constructor(
-      nome: string,
-      tipo: string,
-      preco: number,
-      quantidade: number,
-      validade: string
-    ) {
-      this.nome = nome;
-      this.tipo = tipo;
-      this.preco = preco;
-      this.quantidade = quantidade;
-      this.validade = validade;
-    }
-  };
-
-  itens: InstanceType<typeof Estoque.Medicamento>[] = [];
-
-  adicionar(m: InstanceType<typeof Estoque.Medicamento>): void {
+  adicionar(m: InstanceType<typeof Medicamento>): void {
     this.itens.push(m);
   }
 
@@ -45,7 +25,7 @@ export class Estoque {
     return false;
   }
 
-  getItens(): InstanceType<typeof Estoque.Medicamento>[] {
+  getItens(): InstanceType<typeof Medicamento>[] {
     return this.itens;
   }
 
@@ -61,7 +41,7 @@ export class Estoque {
           " | Validade: " +
           m.validade +
           " | R$" +
-          m.preco
+          m.preco,
       );
     }
   }
