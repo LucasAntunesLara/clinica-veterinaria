@@ -4,6 +4,7 @@ import { Cachorro } from "./model/Cachorro";
 import { Gato } from "./model/Gato";
 import { Prontuario } from "./model/Prontuario";
 import { Estoque } from "./model/Estoque";
+import { Medicamento } from "./model/Medicamento";
 
 class Main {
   static main(): void {
@@ -16,7 +17,7 @@ class Main {
       "51999990001",
       "carlos@clinica.com",
       "CRMV-1234",
-      "clinico"
+      "clinico",
     );
     const v2 = new Veterinario(
       "Dra. Ana",
@@ -24,7 +25,7 @@ class Main {
       "51999990002",
       "ana@clinica.com",
       "CRMV-5678",
-      "cirurgiao"
+      "cirurgiao",
     );
 
     clinica.veterinarios.push(v1);
@@ -40,7 +41,7 @@ class Main {
       false,
       "João Silva",
       "51988880001",
-      "11122233344"
+      "11122233344",
     );
 
     const cat = new Gato(
@@ -51,7 +52,7 @@ class Main {
       "curta",
       "Maria Souza",
       "51988880002",
-      "55566677788"
+      "55566677788",
     );
 
     clinica.animais.push(dog);
@@ -83,12 +84,12 @@ class Main {
 
     // ---- Estoque ---------------------------------------------------------
     const estoque = new Estoque();
-    const med = new Estoque.Medicamento(
+    const med = new Medicamento(
       "Amoxicilina",
       "antibiotico",
       25.0,
       4,
-      "2025-12-01"
+      "2025-12-01",
     );
     estoque.adicionar(med);
 
