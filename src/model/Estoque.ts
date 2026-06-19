@@ -1,32 +1,20 @@
-import { Medicamento } from "./Medicamento";
+import { Medicamento, MedicamentoDTO } from "./Medicamento";
 
 export class Estoque {
-  itens: InstanceType<typeof Medicamento>[] = [];
+  private itens: Medicamento[] = [];
 
-  adicionar(m: InstanceType<typeof Medicamento>): void {
+  adicionar(m: Medicamento): void {
     this.itens.push(m);
   }
 
   darBaixa(nomeMedicamento: string, qtd: number): boolean {
-    for (const m of this.itens) {
-      if (m.nome === nomeMedicamento) {
-        try {
-          if (m.quantidade < qtd) {
-            throw new Error("Estoque insuficiente");
-          }
-          m.quantidade -= qtd;
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }
-    }
-
-    return false;
+    const m = this.itens.find((it) => it.nome === nomeMedicamento);
+    if (!m) return false;
+    return m.reduzirQuantidade(qtd);
   }
 
-  getItens(): InstanceType<typeof Medicamento>[] {
-    return this.itens;
+  getItens(): ReadonlyArray<MedicamentoDTO> {
+    return this.itens.map((m) => m.toDTO());
   }
 
   imprimirEstoque(): void {
