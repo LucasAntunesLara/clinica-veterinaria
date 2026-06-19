@@ -95,12 +95,8 @@ class Main {
 
     estoque.alertarEstoqueBaixo();
 
-    // tentativa de mutação externa da coleção retornada pelo estoque (agora imutável)
-    const itensExternos = estoque.getItens();
-    // itensExternos.splice(0); // não compila: ReadonlyArray não tem splice
-    console.log(
-      "Itens após tentativa de clear externo: " + itensExternos.length,
-    );
+    estoque.getItens().splice(0);
+    console.log("Itens após clear externo: " + estoque.itens.length);
 
     // ---- Relatórios ------------------------------------------------------
     clinica.gerarRelatorioConsultas();
