@@ -12,7 +12,11 @@ export class ClinicaService {
   // AGENDAMENTO
   // -----------------------------------------------------------------------
 
-  agendarConsulta(nomeAnimal: string, nomeVeterinario: string, dataHora: Date): Consulta {
+  agendarConsulta(
+    nomeAnimal: string,
+    nomeVeterinario: string,
+    dataHora: Date,
+  ): Consulta {
     let animal: Animal | undefined;
     let vet: Veterinario | undefined;
 
@@ -47,7 +51,7 @@ export class ClinicaService {
       animal,
       nomeVeterinario,
       dataHora,
-      150.0
+      150.0,
     );
     this.consultas.push(c);
 
@@ -67,7 +71,7 @@ export class ClinicaService {
           "SMS enviado para " +
             c.animal.nomeDono +
             ": sua consulta foi cancelada. Motivo: " +
-            motivo
+            motivo,
         );
         return;
       }
@@ -84,7 +88,7 @@ export class ClinicaService {
     let receita = 0;
 
     for (const c of this.consultas) {
-      c.imprimirResumo();
+      console.log(c.imprimirResumo());
       if (c.pago) receita += c.valorConsulta;
       total++;
     }
@@ -95,7 +99,7 @@ export class ClinicaService {
   gerarRelatorioAnimais(): void {
     console.log("===== ANIMAIS CADASTRADOS =====");
     for (const a of this.animais) {
-      a.imprimirFicha();
+      console.log(a.imprimirFicha());
     }
   }
 
@@ -104,10 +108,7 @@ export class ClinicaService {
   // -----------------------------------------------------------------------
 
   calcularDesconto(c: Consulta): number {
-    if (
-      c.animal.especie === "cachorro" &&
-      c.valorConsulta > 200
-    ) {
+    if (c.animal.especie === "cachorro" && c.valorConsulta > 200) {
       return c.valorConsulta * 0.1;
     }
     if (c.animal.especie === "gato") {
@@ -133,7 +134,7 @@ export class ClinicaService {
     for (const v of this.veterinarios) {
       if (v.nome === nome) return v;
     }
-    
+
     return undefined;
   }
 }

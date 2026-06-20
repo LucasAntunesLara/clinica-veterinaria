@@ -11,7 +11,7 @@ export class Estoque {
       tipo: string,
       preco: number,
       quantidade: number,
-      validade: string
+      validade: string,
     ) {
       this.nome = nome;
       this.tipo = tipo;
@@ -49,28 +49,23 @@ export class Estoque {
     return this.itens;
   }
 
-  imprimirEstoque(): void {
-    console.log("===== ESTOQUE =====");
-    for (const m of this.itens) {
-      console.log(
-        m.nome +
-          " | " +
-          m.tipo +
-          " | Qtd: " +
-          m.quantidade +
-          " | Validade: " +
-          m.validade +
-          " | R$" +
-          m.preco
-      );
-    }
+  imprimirEstoque(): string {
+    let resultado = "===== ESTOQUE =====\n";
+
+    for (const m of this.itens)
+      resultado += `${m.nome} | ${m.tipo} | Qtd: ${m.quantidade} | Validade: ${m.validade} | R$${m.preco}\n`;
+
+    return resultado;
   }
 
-  alertarEstoqueBaixo(): void {
+  alertarEstoqueBaixo(): string[] {
+    const alertas: string[] = [];
+
     for (const m of this.itens) {
-      if (m.quantidade < 5) {
-        console.log("ALERTA: estoque baixo para " + m.nome);
-      }
+      if (m.quantidade < 5)
+        alertas.push(`ALERTA: estoque baixo para ${m.nome}`);
     }
+
+    return alertas;
   }
 }

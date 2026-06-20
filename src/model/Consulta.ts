@@ -16,7 +16,7 @@ export class Consulta {
     animal: Animal,
     veterinario: string,
     dataHora: Date,
-    valorConsulta: number
+    valorConsulta: number,
   ) {
     try {
       if (animal === null) throw new Error("animal nulo");
@@ -37,11 +37,7 @@ export class Consulta {
   }
 
   registrarPagamento(forma: string): void {
-    if (
-      forma === "pix" ||
-      forma === "cartao" ||
-      forma === "dinheiro"
-    ) {
+    if (forma === "pix" || forma === "cartao" || forma === "dinheiro") {
       this.formaPagamento = forma;
       this.pago = true;
     } else {
@@ -54,20 +50,7 @@ export class Consulta {
     this.motivoCancelamento = motivo;
   }
 
-  imprimirResumo(): void {
-    console.log(
-      "[Consulta #" +
-        this.id +
-        "] " +
-        this.animal.nome +
-        " | Vet: " +
-        this.veterinario +
-        " | Status: " +
-        this.status +
-        " | Valor: R$" +
-        this.valorConsulta +
-        " | Pago: " +
-        (this.pago ? "Sim" : "Não")
-    );
+  imprimirResumo(): string {
+    return `[Consulta #${this.id}] ${this.animal.nome} | Vet: ${this.veterinario} | Status: ${this.status} | Valor: R$${this.valorConsulta} | Pago: ${this.pago ? "Sim" : "Não"}`;
   }
 }

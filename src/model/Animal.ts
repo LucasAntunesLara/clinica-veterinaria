@@ -19,7 +19,7 @@ export class Animal {
     porte: string,
     nomeDono: string,
     telefoneDono: string,
-    cpfDono: string
+    cpfDono: string,
   ) {
     this.nome = nome;
     this.idade = idade;
@@ -43,21 +43,14 @@ export class Animal {
     return "";
   }
 
-  imprimirFicha(): void {
-    console.log("========== FICHA DO ANIMAL ==========");
-    console.log("Nome   : " + this.nome);
-    console.log("Espécie: " + this.especie);
-    console.log("Porte  : " + this.porte);
-    console.log("Peso   : " + this.peso + " kg");
-    console.log("Idade  : " + this.idade + " anos");
-    console.log(
-      "Dono   : " +
-        this.nomeDono +
-        " | CPF: " +
-        this.cpfDono +
-        " | Tel: " +
-        this.telefoneDono
-    );
-    console.log("=====================================");
+  imprimirFicha(): string {
+    return `========== FICHA DO ANIMAL ==========
+Nome   : ${this.nome}
+Espécie: ${this.especie}
+Porte  : ${this.porte}
+Peso   : ${this.peso} kg
+Idade  : ${this.idade} anos
+Dono   : ${this.nomeDono} | CPF: ${this.cpfDono} | Tel: ${this.telefoneDono}
+=====================================`;
   }
 }
