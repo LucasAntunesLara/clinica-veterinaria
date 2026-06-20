@@ -1,5 +1,6 @@
 import { Animal } from "../model/Animal";
 import { Consulta } from "../model/Consulta";
+import { Especie } from "../model/enums/Especie";
 import { Veterinario } from "../model/Veterinario";
 
 export class ClinicaService {
@@ -12,7 +13,11 @@ export class ClinicaService {
   // AGENDAMENTO
   // -----------------------------------------------------------------------
 
-  agendarConsulta(nomeAnimal: string, nomeVeterinario: string, dataHora: Date): Consulta {
+  agendarConsulta(
+    nomeAnimal: string,
+    nomeVeterinario: string,
+    dataHora: Date,
+  ): Consulta {
     let animal: Animal | undefined;
     let vet: Veterinario | undefined;
 
@@ -47,7 +52,7 @@ export class ClinicaService {
       animal,
       nomeVeterinario,
       dataHora,
-      150.0
+      150.0,
     );
     this.consultas.push(c);
 
@@ -67,7 +72,7 @@ export class ClinicaService {
           "SMS enviado para " +
             c.animal.nomeDono +
             ": sua consulta foi cancelada. Motivo: " +
-            motivo
+            motivo,
         );
         return;
       }
@@ -104,13 +109,10 @@ export class ClinicaService {
   // -----------------------------------------------------------------------
 
   calcularDesconto(c: Consulta): number {
-    if (
-      c.animal.especie === "cachorro" &&
-      c.valorConsulta > 200
-    ) {
+    if (c.animal.especie === Especie.Cachorro && c.valorConsulta > 200) {
       return c.valorConsulta * 0.1;
     }
-    if (c.animal.especie === "gato") {
+    if (c.animal.especie === Especie.Gato) {
       return c.valorConsulta * 0.05;
     }
 
@@ -133,7 +135,7 @@ export class ClinicaService {
     for (const v of this.veterinarios) {
       if (v.nome === nome) return v;
     }
-    
+
     return undefined;
   }
 }

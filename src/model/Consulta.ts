@@ -1,14 +1,16 @@
 import { Animal } from "./Animal";
+import { ConsultaStatus } from "./enums/ConsultaStatus";
+import { FormaPagamento } from "./enums/FormaPagamento";
 
 export class Consulta {
   id: number;
   animal: Animal;
   veterinario: string;
   dataHora: Date;
-  status: string;
+  status: ConsultaStatus;
   motivoCancelamento?: string;
   valorConsulta: number;
-  formaPagamento?: string;
+  formaPagamento?: FormaPagamento;
   pago: boolean;
 
   constructor(
@@ -16,7 +18,7 @@ export class Consulta {
     animal: Animal,
     veterinario: string,
     dataHora: Date,
-    valorConsulta: number
+    valorConsulta: number,
   ) {
     try {
       if (animal === null) throw new Error("animal nulo");
@@ -32,15 +34,15 @@ export class Consulta {
     this.veterinario = veterinario;
     this.dataHora = dataHora;
     this.valorConsulta = valorConsulta;
-    this.status = "agendada";
+    this.status = ConsultaStatus.Agendada;
     this.pago = false;
   }
 
   registrarPagamento(forma: string): void {
     if (
-      forma === "pix" ||
-      forma === "cartao" ||
-      forma === "dinheiro"
+      forma === FormaPagamento.PIX ||
+      forma === FormaPagamento.Cartao ||
+      forma === FormaPagamento.Cartao
     ) {
       this.formaPagamento = forma;
       this.pago = true;
@@ -50,7 +52,7 @@ export class Consulta {
   }
 
   cancelar(motivo: string): void {
-    this.status = "cancelada";
+    this.status = ConsultaStatus.Cancelada;
     this.motivoCancelamento = motivo;
   }
 
@@ -67,7 +69,7 @@ export class Consulta {
         " | Valor: R$" +
         this.valorConsulta +
         " | Pago: " +
-        (this.pago ? "Sim" : "Não")
+        (this.pago ? "Sim" : "Não"),
     );
   }
 }

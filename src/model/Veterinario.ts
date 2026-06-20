@@ -1,9 +1,11 @@
 import { Pessoa } from "./Pessoa";
 import { Consulta } from "./Consulta";
+import { Especialidade } from "./enums/Especialidade";
+import { ConsultaStatus } from "./enums/ConsultaStatus";
 
 export class Veterinario extends Pessoa {
   crmv: string;
-  especialidade: string;
+  especialidade: Especialidade;
   historicoConsultas: Consulta[] = [];
   disponivel: boolean = true;
 
@@ -13,7 +15,7 @@ export class Veterinario extends Pessoa {
     telefone: string,
     email: string,
     crmv: string,
-    especialidade: string
+    especialidade: Especialidade,
   ) {
     super(nome, cpf, telefone, email);
     this.crmv = crmv;
@@ -33,7 +35,7 @@ export class Veterinario extends Pessoa {
   }
 
   finalizarConsulta(c: Consulta): void {
-    c.status = "finalizada";
+    c.status = ConsultaStatus.Finalizada;
     this.historicoConsultas.push(c);
     this.disponivel = true;
   }

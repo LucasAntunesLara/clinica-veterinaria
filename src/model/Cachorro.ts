@@ -1,4 +1,6 @@
 import { Animal } from "./Animal";
+import { Especie } from "./enums/Especie";
+import { Porte } from "./enums/Porte";
 
 export class Cachorro extends Animal {
   raca: string;
@@ -8,20 +10,31 @@ export class Cachorro extends Animal {
     nome: string,
     idade: number,
     peso: number,
-    porte: string,
+    porte: Porte,
     raca: string,
     vacinado: boolean,
     nomeDono: string,
     telefoneDono: string,
-    cpfDono: string
+    cpfDono: string,
   ) {
-    super(nome, idade, peso, "cachorro", porte, nomeDono, telefoneDono, cpfDono);
+    super(
+      nome,
+      idade,
+      peso,
+      Especie.Cachorro,
+      porte,
+      nomeDono,
+      telefoneDono,
+      cpfDono,
+    );
     this.raca = raca;
     this.vacinado = vacinado;
   }
 
   override getCategoriaVacina(): string {
-    return super.getCategoriaVacina() + (this.vacinado ? "-reforco" : "-primaria");
+    return (
+      super.getCategoriaVacina() + (this.vacinado ? "-reforco" : "-primaria")
+    );
   }
 
   override imprimirFicha(): void {
