@@ -1,6 +1,13 @@
 type Especie = "cachorro" | "gato" | "passaro" | "reptil";
 type Porte = "pequeno" | "medio" | "grande";
 
+type CaracteristicasOpcionais = {
+  raca?: string;
+  vacinado?: boolean;
+  ehCastrado?: boolean;
+  pelagem?: string;
+};
+
 export class Animal {
   nome: string;
   idade: number;
@@ -10,6 +17,7 @@ export class Animal {
   nomeDono: string;
   telefoneDono: string;
   cpfDono: string;
+  caracteristicas: CaracteristicasOpcionais;
 
   constructor(
     nome: string,
@@ -19,7 +27,8 @@ export class Animal {
     porte: string,
     nomeDono: string,
     telefoneDono: string,
-    cpfDono: string
+    cpfDono: string,
+    caracteristicas: CaracteristicasOpcionais = {},
   ) {
     this.nome = nome;
     this.idade = idade;
@@ -29,13 +38,27 @@ export class Animal {
     this.nomeDono = nomeDono;
     this.telefoneDono = telefoneDono;
     this.cpfDono = cpfDono;
+    this.caracteristicas = caracteristicas;
   }
 
   getCategoriaVacina(): string {
     if (this.especie === "cachorro") {
-      if (this.porte === "pequeno") return "V8-pequeno";
-      if (this.porte === "medio") return "V8-medio";
-      return "V10-grande";
+      let categoria: string;
+
+      switch (this.porte) {
+        case "pequeno":
+          categoria = "V8-pequeno";
+          break;
+        case "medio":
+          categoria = "V8-medio";
+          break;
+        default:
+          categoria = "V10-grande";
+      }
+
+      if (this.caracteristicas?.vacinado !== undefined) {
+        return `${categoria} ${this.caracteristicas.vacinado ? "-reforco" : "-primaria"}`;
+      }
     } else if (this.especie === "gato") {
       return "V4-felino";
     }
@@ -56,8 +79,16 @@ export class Animal {
         " | CPF: " +
         this.cpfDono +
         " | Tel: " +
-        this.telefoneDono
+        this.telefoneDono,
     );
     console.log("=====================================");
+
+    if (this.caracteristicas.raca !== undefined)
+      console.log("Raça   : " + this.caracteristicas?.raca);
+
+    if (this.caracteristicas.vacinado !== undefined)
+      console.log(
+        "Vacina : " + (this.caracteristicas?.vacinado ? "Em dia" : "Pendente"),
+      );
   }
 }
