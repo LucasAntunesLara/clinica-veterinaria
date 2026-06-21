@@ -16,16 +16,9 @@ export class Consulta {
     animal: Animal,
     veterinario: string,
     dataHora: Date,
-    valorConsulta: number
+    valorConsulta: number,
   ) {
-    try {
-      if (animal === null) throw new Error("animal nulo");
-      if (valorConsulta < 0) throw new Error("valor negativo");
-      if (veterinario === null || veterinario.length === 0)
-        throw new Error("sem veterinário");
-    } catch (e) {
-      console.log("Aviso: " + (e as Error).message);
-    }
+    this.validarDados(animal, veterinario, valorConsulta);
 
     this.id = id;
     this.animal = animal;
@@ -36,38 +29,73 @@ export class Consulta {
     this.pago = false;
   }
 
+  private validarDados(
+    animal: Animal,
+    veterinario: string,
+    valorConsulta: number,
+  ): void {
+    if (!animal) throw new Error("Animal é obrigatório.");
+
+    if (!animal.nome || animal.nome.trim().length === 0)
+      throw new Error("Animal deve ter um nome válido.");
+
+    if (!veterinario || veterinario.trim().length === 0)
+      throw new Error("Veterinário é obrigatório.");
+
+    if (valorConsulta < 0)
+      throw new Error("Valor da consulta não pode ser negativo.");
+
+    if (valorConsulta === 0)
+      throw new Error("Valor da consulta deve ser maior que zero.");
+  }
+
   registrarPagamento(forma: string): void {
-    if (
-      forma === "pix" ||
-      forma === "cartao" ||
-      forma === "dinheiro"
-    ) {
-      this.formaPagamento = forma;
-      this.pago = true;
-    } else {
-      throw new Error("Forma de pagamento inválida: " + forma);
+    const formasValidas = ["pix", "cartao", "dinheiro"];
+
+    if (!forma || forma.trim().length === 0) {
+      throw new Error("Forma de pagamento é obrigatória");
     }
+
+    const formaNormalizada = forma.toLowerCase().trim();
+
+    if (!formasValidas.includes(formaNormalizada)) {
+      throw new Error(
+        `Forma de pagamento inválida: "${forma}". Formas permitidas: ${formasValidas.join(", ")}`,
+      );
+    }
+
+    if (this.pago) throw new Error("Esta consulta já foi paga");
+
+    if (this.status === "cancelada")
+      throw new Error("Não é possível pagar uma consulta cancelada");
+
+    this.formaPagamento = formaNormalizada;
+    this.pago = true;
   }
 
   cancelar(motivo: string): void {
+    if (!motivo || motivo.trim().length === 0)
+      throw new Error("Motivo do cancelamento é obrigatório.");
+
+    if (this.status === "cancelada")
+      throw new Error("Esta consulta já está cancelada.");
+
+    if (this.pago)
+      throw new Error("Não é possível cancelar uma consulta já paga.");
+
     this.status = "cancelada";
-    this.motivoCancelamento = motivo;
+    this.motivoCancelamento = motivo.trim();
   }
 
   imprimirResumo(): void {
+    const statusPagamento = this.pago ? "Sim" : "Não";
+    const statusConsulta = this.status;
+    const motivo = this.motivoCancelamento
+      ? ` (Motivo: ${this.motivoCancelamento})`
+      : "";
+
     console.log(
-      "[Consulta #" +
-        this.id +
-        "] " +
-        this.animal.nome +
-        " | Vet: " +
-        this.veterinario +
-        " | Status: " +
-        this.status +
-        " | Valor: R$" +
-        this.valorConsulta +
-        " | Pago: " +
-        (this.pago ? "Sim" : "Não")
+      `[Consulta #${this.id}] ${this.animal.nome} | Vet: ${this.veterinario} | Status: ${statusConsulta}${motivo} | Valor: R$${this.valorConsulta.toFixed(2)} | Pago: ${statusPagamento}`,
     );
   }
 }
