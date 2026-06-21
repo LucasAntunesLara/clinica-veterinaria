@@ -3,13 +3,19 @@ import { Animal } from "./Animal";
 interface Registravel {
   registrar(): void;
   atualizar(): void;
-  deletar(): void;
+}
+
+interface Imprimivel {
   imprimir(): void;
-  exportarCSV(): void;
+}
+
+interface ComunicavelPorEmail {
   enviarEmail(): void;
 }
 
-export class Prontuario implements Registravel {
+export class Prontuario
+  implements Registravel, Imprimivel, ComunicavelPorEmail
+{
   id: number;
   animal: Animal;
   observacoes: string[] = [];
@@ -33,9 +39,6 @@ export class Prontuario implements Registravel {
     console.log("Prontuário atualizado.");
   }
 
-  deletar(): void {
-  }
-
   imprimir(): void {
     console.log(
       "Prontuário #" +
@@ -43,18 +46,12 @@ export class Prontuario implements Registravel {
         " | Animal: " +
         this.animal.nome +
         " | Diagnóstico: " +
-        this.diagnostico
+        this.diagnostico,
     );
-  }
-
-  exportarCSV(): void {
-
   }
 
   enviarEmail(): void {
-    console.log(
-      "Enviando prontuário por email para " + this.animal.nomeDono
-    );
+    console.log("Enviando prontuário por email para " + this.animal.nomeDono);
   }
 
   adicionarObservacao(obs: string): void {
